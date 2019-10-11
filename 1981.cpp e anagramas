@@ -1,0 +1,93 @@
+##Python##
+
+
+mod = 1000000007
+
+def fat(n):
+    res = 1
+    for i in range(2,n+1):
+        res *= i
+        res %= mod
+    return res
+
+s = input()
+
+l = [0 for i in range(26)]
+len = 0
+
+for i in s:
+    l[ord(i)-97]+=1
+    len += 1
+
+b = 1
+for i in range(26):
+    if l[i]!=0:
+        b *= fat(l[i])
+        b %= mod
+
+invb = pow(b,mod-2,mod)
+res = (fat(len)*invb)%mod
+
+print(res)
+
+
+##PYTHON#
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define mod 1000000007
+#define ll long long
+
+int v[26];
+
+ll expmod(ll a, ll b) {
+  if(b == 0)
+    return 1;
+  else {
+    ll res = expmod(a, b/2);
+    res = (res*res) % mod;
+    if(b%2 == 1)
+      res = (res*a) % mod;
+    return (ll) res;
+  }
+}
+
+ll fat(int n){
+    ll res=1;
+    for(int i=2; i<=n; i++){
+        res *= i;
+        res %= mod;
+    }
+    return res;
+}
+
+int main(){
+    
+    string s;
+    while((cin >> s) && s!="0"){
+        
+        memset(v,0,sizeof(v));
+
+        int len = 0;
+        for(int c : s){
+            v[c-97]++;
+            len++;
+        }
+
+        ll b = 1;
+
+        for(int i=0; i<26; i++){
+            if(v[i]!=0){
+                b *= fat(v[i]);
+                b %= mod;
+            }
+        }
+
+        ll invb = expmod(b, mod-2)+1;
+        cout << (fat(len)*invb)%mod << endl;
+
+    }
+
+    return 0;
+}
